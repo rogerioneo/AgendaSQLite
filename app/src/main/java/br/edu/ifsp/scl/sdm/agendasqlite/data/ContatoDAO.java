@@ -11,7 +11,7 @@ public class ContatoDAO {
     SQLiteDatabase database;
     SQLiteHelper dbHelper;
 
-    ContatoDAO(Context context) {
+    public ContatoDAO(Context context) {
         this.dbHelper = new SQLiteHelper(context);
     }
 
