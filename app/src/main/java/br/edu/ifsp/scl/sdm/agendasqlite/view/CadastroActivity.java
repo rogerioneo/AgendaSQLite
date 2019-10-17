@@ -40,8 +40,6 @@ public class CadastroActivity extends AppCompatActivity {
             dao.incluirContato(contato);
 
             finish();
-
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }

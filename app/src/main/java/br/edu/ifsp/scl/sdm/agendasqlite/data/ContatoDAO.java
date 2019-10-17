@@ -2,7 +2,11 @@ package br.edu.ifsp.scl.sdm.agendasqlite.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import br.edu.ifsp.scl.sdm.agendasqlite.model.Contato;
 
@@ -14,6 +18,35 @@ public class ContatoDAO {
     public ContatoDAO(Context context) {
         this.dbHelper = new SQLiteHelper(context);
     }
+
+    public List<Contato> listaContatos() {
+        database = dbHelper.getReadableDatabase();
+        List<Contato> contatos = new ArrayList<>();
+
+        Cursor cursor;
+
+        cursor = database.query(SQLiteHelper.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                SQLiteHelper.KEY_NOME);
+        while (cursor.moveToNext()) {
+            Contato c = new Contato();
+            c.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelper.KEY_ID)));             //cursor.getInt(0)
+            c.setNome(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_NOME)));      //cursor.getString(1)
+            c.setFone(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_FONE)));      //cursor.getString(2)
+            c.setEmail(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_EMAIL)));    //cursor.getString(3)
+            contatos.add(c);
+        }
+
+        cursor.close();
+        database.close();
+
+        return contatos;
+    }
+
 
     public void incluirContato(Contato contato) {
         database = dbHelper.getWritableDatabase();
