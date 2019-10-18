@@ -59,4 +59,23 @@ public class ContatoDAO {
 
         database.close();
     }
+
+    public void alterarContato(Contato contato) {
+        database = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(SQLiteHelper.KEY_NOME, contato.getNome());
+        values.put(SQLiteHelper.KEY_FONE, contato.getFone());
+        values.put(SQLiteHelper.KEY_EMAIL, contato.getEmail());
+
+        database.update(SQLiteHelper.TABLE_NAME, values,
+                SQLiteHelper.KEY_ID + "=" + contato.getId(), null);
+        database.close();
+    }
+
+    public void excluirContato(Contato contato) {
+        database = dbHelper.getWritableDatabase();
+        database.delete(SQLiteHelper.TABLE_NAME,
+                SQLiteHelper.KEY_ID + "=" + contato.getId(), null);
+        database.close();
+    }
 }

@@ -15,7 +15,29 @@ import br.edu.ifsp.scl.sdm.agendasqlite.model.Contato;
 
 public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoViewHolder> {
 
-    List<Contato> contatos;
+    static List<Contato> contatos;
+
+    private static ItemClickListener clickListener;
+
+    public void adicionaContatoAdapter(Contato contato){
+        contatos.add(0,contato);
+        notifyItemInserted(0);
+    }
+
+    public void atualizaContatoAdapter(Contato contato) {
+        contatos.set(contatos.indexOf(contato), contato);
+        notifyItemChanged(contatos.indexOf(contato));
+    }
+
+    public void apagaContatoAdapter(Contato contato) {
+        int pos = contatos.indexOf(contato);
+        contatos.remove(pos);
+        notifyItemRemoved(pos);
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener){
+        clickListener = itemClickListener;
+    }
 
     public ContatoAdapter(List<Contato> contatos) {
         this.contatos = contatos;
@@ -41,12 +63,25 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
         return contatos.size();
     }
 
-    public class ContatoViewHolder extends RecyclerView.ViewHolder {
+    public class ContatoViewHolder
+            extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
         final TextView nome;
         public ContatoViewHolder(@NonNull View itemView) {
             super(itemView);
             nome = (TextView) itemView.findViewById(R.id.nome);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            if (clickListener != null)
+                clickListener.onItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 
 }

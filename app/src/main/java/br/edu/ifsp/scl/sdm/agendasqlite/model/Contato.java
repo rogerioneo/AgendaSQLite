@@ -1,6 +1,10 @@
 package br.edu.ifsp.scl.sdm.agendasqlite.model;
 
-public class Contato {
+import androidx.annotation.Nullable;
+
+import java.io.Serializable;
+
+public class Contato implements Serializable {
 
     private int id;
     private String nome;
@@ -18,6 +22,11 @@ public class Contato {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return (((Contato)obj).getId() == this.getId());
     }
 
     public void setId(int id) {

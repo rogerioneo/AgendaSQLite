@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<Contato> contatos = new ArrayList<>();
     ContatoDAO dao;
-    ContatoAdapter adapter;
+    static ContatoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +44,21 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ContatoAdapter(contatos);
         recyclerView.setAdapter(adapter);
 
+        adapter.setClickListener(new ContatoAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                final Contato contato = contatos.get(position);
+                Intent i = new Intent(getApplicationContext(), DetalheActivity.class);
+                i.putExtra("contato", contato);
+                startActivityForResult(i,2);
+            }
+        });
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getApplicationContext(),CadastroActivity.class);
+                Intent i = new Intent(getApplicationContext(),CadastroActivity.class);
                 startActivityForResult(i,1);
 
             }

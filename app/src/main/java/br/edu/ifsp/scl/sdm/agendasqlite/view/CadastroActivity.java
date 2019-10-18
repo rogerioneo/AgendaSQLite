@@ -39,6 +39,8 @@ public class CadastroActivity extends AppCompatActivity {
             Contato contato = new Contato(nome, fone, email);
             dao.incluirContato(contato);
 
+            MainActivity.adapter.adicionaContatoAdapter(contato);
+
             finish();
         }
         return super.onOptionsItemSelected(item);
