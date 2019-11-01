@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import br.edu.ifsp.scl.sdm.agendasqlite.R;
 import br.edu.ifsp.scl.sdm.agendasqlite.data.ContatoDAO;
@@ -29,7 +30,7 @@ public class DetalheActivity extends AppCompatActivity {
             EditText fone = findViewById(R.id.editTextFone);
             fone.setText(contato.getFone());
             EditText email = findViewById(R.id.editTextEmail);
-            email.setText(contato.getFone());
+            email.setText(contato.getEmail());
         }
     }
 
@@ -43,23 +44,30 @@ public class DetalheActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         ContatoDAO dao = new ContatoDAO(this);
-        String nome = ((EditText) findViewById(R.id.editTextNome)).getText().toString();
-        String fone = ((EditText) findViewById(R.id.editTextFone)).getText().toString();
-        String email = ((EditText) findViewById(R.id.editTextEmail)).getText().toString();
-
-        contato.setNome(nome);
-        contato.setFone(fone);
-        contato.setEmail(email);
 
         switch (item.getItemId()){
             case R.id.action_salvarContato:
+                String nome = ((EditText) findViewById(R.id.editTextNome)).getText().toString();
+                String fone = ((EditText) findViewById(R.id.editTextFone)).getText().toString();
+                String email = ((EditText) findViewById(R.id.editTextEmail)).getText().toString();
+
+                contato.setNome(nome);
+                contato.setFone(fone);
+                contato.setEmail(email);
+
                 dao.alterarContato(contato);
                 MainActivity.adapter.atualizaContatoAdapter(contato);
+
+                Toast.makeText(getApplicationContext(), "Contato "+contato.getNome()+" alterado",
+                        Toast.LENGTH_LONG).show();
+
                 finish();
                 break;
             case R.id.action_excluirContato:
                 dao.excluirContato(contato);
                 MainActivity.adapter.apagaContatoAdapter(contato);
+                Toast.makeText(getApplicationContext(), "Contato "+contato.getNome()+" excluído",
+                        Toast.LENGTH_LONG).show();
                 finish();
                 break;
         }

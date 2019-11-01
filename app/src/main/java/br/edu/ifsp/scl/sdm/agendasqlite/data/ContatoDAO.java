@@ -48,16 +48,17 @@ public class ContatoDAO {
     }
 
 
-    public void incluirContato(Contato contato) {
+    public long incluirContato(Contato contato) {
         database = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.KEY_NOME, contato.getNome());
         values.put(SQLiteHelper.KEY_FONE, contato.getFone());
         values.put(SQLiteHelper.KEY_EMAIL, contato.getEmail());
 
-        database.insert(SQLiteHelper.TABLE_NAME, null, values);
+        long id = database.insert(SQLiteHelper.TABLE_NAME, null, values);
 
         database.close();
+        return id;
     }
 
     public void alterarContato(Contato contato) {

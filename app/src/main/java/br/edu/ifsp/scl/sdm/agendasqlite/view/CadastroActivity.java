@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import br.edu.ifsp.scl.sdm.agendasqlite.R;
 import br.edu.ifsp.scl.sdm.agendasqlite.data.ContatoDAO;
@@ -37,9 +38,12 @@ public class CadastroActivity extends AppCompatActivity {
             String email = ((EditText) findViewById(R.id.editTextEmail)).getText().toString();
 
             Contato contato = new Contato(nome, fone, email);
-            dao.incluirContato(contato);
+            contato.setId((int) dao.incluirContato(contato));
 
             MainActivity.adapter.adicionaContatoAdapter(contato);
+
+            Toast.makeText(getApplicationContext(), "Contato "+contato.getNome()+" inserido",
+                    Toast.LENGTH_LONG).show();
 
             finish();
         }
