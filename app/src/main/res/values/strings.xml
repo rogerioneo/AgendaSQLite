@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Agenda SQLite</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configuração</string>
+    <string name="actions_favorite">Favorito</string>
+    <string name="contato">Contato</string>
+    <string name="favoritado">favoritado</string>
+    <string name="removido_favoritos">removido dos favoritos</string>
+    <string name="incluido">incluido</string>
+    <string name="alterado">alterado</string>
+    <string name="excluido">excluido</string>
 </resources>

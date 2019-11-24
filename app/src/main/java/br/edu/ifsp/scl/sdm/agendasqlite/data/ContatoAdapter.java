@@ -1,10 +1,13 @@
 package br.edu.ifsp.scl.sdm.agendasqlite.data;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,8 @@ import br.edu.ifsp.scl.sdm.agendasqlite.model.Contato;
 public class ContatoAdapter
         extends RecyclerView.Adapter<ContatoAdapter.ContatoViewHolder>
         implements Filterable {
+
+    static String TAG = "ContatoAdatapter";
 
     static List<Contato> contatos;
     List<Contato> contactListFiltered;
@@ -54,6 +59,12 @@ public class ContatoAdapter
         notifyItemRemoved(pos);
     }
 
+    public void favoritarContatoAdapter(Contato contato) {
+        int pos = contatos.indexOf(contato);
+        contatos.get(pos).setFavorito(contato.getFavorito());
+        notifyItemChanged(pos);
+    }
+
     public void setClickListener(ItemClickListener itemClickListener){
         clickListener = itemClickListener;
     }
@@ -77,6 +88,10 @@ public class ContatoAdapter
     @Override
     public void onBindViewHolder(@NonNull ContatoViewHolder holder, int position) {
         holder.nome.setText(contactListFiltered.get(position).getNome());
+        if (contactListFiltered.get(position).getFavorito() == 1)
+            holder.favorito.setImageResource(android.R.drawable.btn_star_big_on);
+        else
+            holder.favorito.setImageResource(android.R.drawable.btn_star_big_off);
     }
 
     @Override
@@ -123,21 +138,31 @@ public class ContatoAdapter
             extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         final TextView nome;
+        final ImageButton favorito;
         public ContatoViewHolder(@NonNull View itemView) {
             super(itemView);
-            nome = (TextView) itemView.findViewById(R.id.nome);
+            nome = itemView.findViewById(R.id.nome);
+            favorito = itemView.findViewById(R.id.favorite);
             itemView.setOnClickListener(this);
+            favorito.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+//            Log.i(TAG, "setClickListener: " + view.getClass().getSimpleName());
+            Evento evento = Evento.Editar;
             if (clickListener != null)
-                clickListener.onItemClick(getAdapterPosition());
+                if (view.getId() == R.id.favorite) evento = Evento.Favoritar;
+                clickListener.onItemClick(evento, getAdapterPosition());
         }
     }
 
+    public enum Evento {
+        Editar, Favoritar;
+    }
+
     public interface ItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(Evento evento, int position);
     }
 
 }

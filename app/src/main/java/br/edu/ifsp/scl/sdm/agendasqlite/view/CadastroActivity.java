@@ -42,7 +42,8 @@ public class CadastroActivity extends AppCompatActivity {
 
             MainActivity.adapter.adicionaContatoAdapter(contato);
 
-            Toast.makeText(getApplicationContext(), "Contato "+contato.getNome()+" inserido",
+            Toast.makeText(getApplicationContext(), getResources().getText(R.string.contato) +" "+
+                            contato.getNome()+ " " + getResources().getText(R.string.incluido),
                     Toast.LENGTH_LONG).show();
 
             finish();

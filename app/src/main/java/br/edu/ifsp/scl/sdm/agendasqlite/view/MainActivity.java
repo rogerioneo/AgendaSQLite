@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ import br.edu.ifsp.scl.sdm.agendasqlite.model.Contato;
 
 public class MainActivity extends AppCompatActivity {
 
+    static String TAG = "MainActivity";
+
     List<Contato> contatos = new ArrayList<>();
     ContatoDAO dao;
     static ContatoAdapter adapter;
@@ -54,13 +57,32 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ContatoAdapter(contatos);
         recyclerView.setAdapter(adapter);
 
+
         adapter.setClickListener(new ContatoAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(ContatoAdapter.Evento evento, int position) {
+//                Log.i(TAG, "setClickListener: (" + evento + ") " +
+//                        adapter.getContactListFiltered().get(position).getNome());
                 final Contato contato = adapter.getContactListFiltered().get(position);
-                Intent i = new Intent(getApplicationContext(), DetalheActivity.class);
-                i.putExtra("contato", contato);
-                startActivityForResult(i,2);
+                if (evento == ContatoAdapter.Evento.Editar) {
+                    Intent i = new Intent(getApplicationContext(), DetalheActivity.class);
+                    i.putExtra("contato", contato);
+                    startActivityForResult(i, 2);
+                } else {
+                    if (contato.getFavorito() == 0) {
+                        contato.setFavorito(1);
+                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.contato) +" "+
+                                        contato.getNome()+ " " + getResources().getText(R.string.favoritado),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        contato.setFavorito(0);
+                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.contato) +" "+
+                                        contato.getNome()+ " " + getResources().getText(R.string.removido_favoritos),
+                                Toast.LENGTH_LONG).show();
+                    }
+                    dao.favoritarContato(contato);
+                    adapter.favoritarContatoAdapter(contato);
+                }
             }
         });
 
@@ -80,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 Contato c = adapter.getContactListFiltered().get(viewHolder.getAdapterPosition());
                 dao.excluirContato(c);
                 adapter.apagaContatoAdapter(c);
-                Toast.makeText(getApplicationContext(), "Contato "+c.getNome()+" excluído",
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.contato) +" "+
+                                c.getNome()+ " " + getResources().getText(R.string.excluido),
                         Toast.LENGTH_LONG).show();
             }
 
@@ -95,15 +118,16 @@ public class MainActivity extends AppCompatActivity {
 
                 View itemView = viewHolder.itemView;
                 float height = (float) itemView.getBottom() - (float) itemView.getTop();
-                float width = height / 3;
+                float space = (height / 6);
+                float width =  space * 4;
 
-                p.setColor(ContextCompat.getColor(getBaseContext(), android.R.color.holo_orange_light));
+                p.setColor(ContextCompat.getColor(getBaseContext(), android.R.color.background_light));
                 RectF background = new RectF((float) itemView.getLeft(),
                         (float) itemView.getTop(), dX, (float) itemView.getBottom());
                 c.drawRect(background, p);
-                icon = BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_delete);
-                RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width,
-                        (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
+                icon = BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_menu_delete);
+                RectF icon_dest = new RectF((float) itemView.getLeft() + space, (float) itemView.getTop() + space,
+                        (float) itemView.getLeft() + space + width, (float) itemView.getBottom() - space);
                 c.drawBitmap(icon, null, icon_dest, null);
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }

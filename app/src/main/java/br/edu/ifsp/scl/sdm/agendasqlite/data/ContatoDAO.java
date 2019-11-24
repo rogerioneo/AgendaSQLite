@@ -38,6 +38,7 @@ public class ContatoDAO {
             c.setNome(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_NOME)));      //cursor.getString(1)
             c.setFone(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_FONE)));      //cursor.getString(2)
             c.setEmail(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_EMAIL)));    //cursor.getString(3)
+            c.setFavorito(cursor.getInt(cursor.getColumnIndex(SQLiteHelper.KEY_FAVORITO))); //cursor.getString(4)
             contatos.add(c);
         }
 
@@ -54,6 +55,7 @@ public class ContatoDAO {
         values.put(SQLiteHelper.KEY_NOME, contato.getNome());
         values.put(SQLiteHelper.KEY_FONE, contato.getFone());
         values.put(SQLiteHelper.KEY_EMAIL, contato.getEmail());
+        values.put(SQLiteHelper.KEY_FAVORITO,0);
 
         long id = database.insert(SQLiteHelper.TABLE_NAME, null, values);
 
@@ -67,6 +69,16 @@ public class ContatoDAO {
         values.put(SQLiteHelper.KEY_NOME, contato.getNome());
         values.put(SQLiteHelper.KEY_FONE, contato.getFone());
         values.put(SQLiteHelper.KEY_EMAIL, contato.getEmail());
+
+        database.update(SQLiteHelper.TABLE_NAME, values,
+                SQLiteHelper.KEY_ID + "=" + contato.getId(), null);
+        database.close();
+    }
+
+    public void favoritarContato(Contato contato) {
+        database = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(SQLiteHelper.KEY_FAVORITO, contato.getFavorito());
 
         database.update(SQLiteHelper.TABLE_NAME, values,
                 SQLiteHelper.KEY_ID + "=" + contato.getId(), null);

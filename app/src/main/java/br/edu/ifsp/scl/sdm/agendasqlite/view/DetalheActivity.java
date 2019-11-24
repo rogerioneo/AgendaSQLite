@@ -58,7 +58,8 @@ public class DetalheActivity extends AppCompatActivity {
                 dao.alterarContato(contato);
                 MainActivity.adapter.atualizaContatoAdapter(contato);
 
-                Toast.makeText(getApplicationContext(), "Contato "+contato.getNome()+" alterado",
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.contato) +" "+
+                                contato.getNome()+ " " + getResources().getText(R.string.alterado),
                         Toast.LENGTH_LONG).show();
 
                 finish();
@@ -66,7 +67,8 @@ public class DetalheActivity extends AppCompatActivity {
             case R.id.action_excluirContato:
                 dao.excluirContato(contato);
                 MainActivity.adapter.apagaContatoAdapter(contato);
-                Toast.makeText(getApplicationContext(), "Contato "+contato.getNome()+" excluído",
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.contato) +" "+
+                                contato.getNome()+ " " + getResources().getText(R.string.excluido),
                         Toast.LENGTH_LONG).show();
                 finish();
                 break;
