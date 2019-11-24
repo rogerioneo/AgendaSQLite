@@ -13,18 +13,24 @@ class SQLiteHelper extends SQLiteOpenHelper {
     static final String KEY_ID = "id";
     static final String KEY_NOME = "nome";
     static final String KEY_FONE = "fone";
+    static final String KEY_FONE2 = "fone2";
     static final String KEY_EMAIL = "email";
     static final String KEY_FAVORITO = "favorito";
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
                                             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                             + KEY_NOME + " TEXT, "
                                             + KEY_FONE + " TEXT, "
+                                            + KEY_FONE2 + " TEXT, "
                                             + KEY_EMAIL + " TEXT);";
-    private static final String ALTER_TABLE = "ALTER TABLE " + TABLE_NAME
+
+    private static final String ALTER_TABLE_FAVORITO = "ALTER TABLE " + TABLE_NAME
                                                 + " ADD " + KEY_FAVORITO +" INTEGER";
+
+    private static final String ALTER_TABLE_FONE2 = "ALTER TABLE " + TABLE_NAME
+            + " ADD " + KEY_FONE2 +" TEXT";
 
     public SQLiteHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,7 +47,9 @@ class SQLiteHelper extends SQLiteOpenHelper {
 
         switch (newVersion){
             case(2):
-                db.execSQL(ALTER_TABLE);
+                db.execSQL(ALTER_TABLE_FAVORITO);
+            case(3):
+                db.execSQL(ALTER_TABLE_FONE2);
         }
     }
 }
