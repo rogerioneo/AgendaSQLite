@@ -11,16 +11,18 @@ public class Contato implements Serializable {
     private String fone;
     private String fone2;
     private String email;
+    private String diaMesAniv;
     private int favorito = 0;
 
     public Contato() {
     }
 
-    public Contato(String nome, String fone, String fone2, String email) {
+    public Contato(String nome, String fone, String fone2, String email, String diaMesAniv) {
         this.nome = nome;
         this.fone = fone;
         this.fone2 = fone2;
         this.email = email;
+        this.diaMesAniv = diaMesAniv;
     }
 
     public int getId() {
@@ -56,9 +58,7 @@ public class Contato implements Serializable {
         return fone2;
     }
 
-    public void setFone2(String fone2) {
-        this.fone2 = fone2;
-    }
+    public void setFone2(String fone2) { this.fone2 = fone2; }
 
     public String getEmail() {
         return email;
@@ -71,4 +71,8 @@ public class Contato implements Serializable {
     public int getFavorito() { return favorito; }
 
     public void setFavorito(int favorito) { this.favorito = favorito; }
+
+    public String getDiaMesAniv() { return diaMesAniv; }
+
+    public void setDiaMesAniv(String diaMesAniv) { this.diaMesAniv = diaMesAniv; }
 }

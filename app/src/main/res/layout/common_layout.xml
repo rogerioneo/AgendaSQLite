@@ -42,4 +42,16 @@
         android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dia e mês de aniversário: " />
+
+    <EditText
+        android:id="@+id/editTextDiaMesAniversario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:hint="Exemplo: DD/MM"/>
 </LinearLayout>

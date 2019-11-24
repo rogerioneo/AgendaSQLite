@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
@@ -110,7 +111,8 @@ public class ContatoAdapter
                 } else {
                     List<Contato> filteredList = new ArrayList<>();
                     for (Contato row : contatos) {
-                        if (row.getNome().toLowerCase().contains(charString.toLowerCase()) ) {
+                        if (row.getNome().toLowerCase().contains(charString.toLowerCase()) ||
+                            row.getEmail().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }

@@ -37,8 +37,9 @@ public class CadastroActivity extends AppCompatActivity {
             String fone = ((EditText) findViewById(R.id.editTextFone)).getText().toString();
             String fone2 = ((EditText) findViewById(R.id.editTextFone2)).getText().toString();
             String email = ((EditText) findViewById(R.id.editTextEmail)).getText().toString();
+            String diaMesAniv = ((EditText) findViewById(R.id.editTextDiaMesAniversario)).getText().toString();
 
-            Contato contato = new Contato(nome, fone, fone2, email);
+            Contato contato = new Contato(nome, fone, fone2, email, diaMesAniv);
             contato.setId((int) dao.incluirContato(contato));
 
             MainActivity.adapter.adicionaContatoAdapter(contato);
