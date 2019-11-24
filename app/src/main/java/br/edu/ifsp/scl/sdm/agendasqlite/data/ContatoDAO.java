@@ -34,11 +34,12 @@ public class ContatoDAO {
                 SQLiteHelper.KEY_NOME);
         while (cursor.moveToNext()) {
             Contato c = new Contato();
-            c.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelper.KEY_ID)));             //cursor.getInt(0)
-            c.setNome(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_NOME)));      //cursor.getString(1)
-            c.setFone(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_FONE)));      //cursor.getString(2)
-            c.setEmail(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_EMAIL)));    //cursor.getString(3)
-            c.setFavorito(cursor.getInt(cursor.getColumnIndex(SQLiteHelper.KEY_FAVORITO))); //cursor.getString(4)
+            c.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelper.KEY_ID)));
+            c.setNome(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_NOME)));
+            c.setFone(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_FONE)));
+            c.setFone2(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_FONE2)));
+            c.setEmail(cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_EMAIL)));
+            c.setFavorito(cursor.getInt(cursor.getColumnIndex(SQLiteHelper.KEY_FAVORITO)));
             contatos.add(c);
         }
 
@@ -54,6 +55,7 @@ public class ContatoDAO {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.KEY_NOME, contato.getNome());
         values.put(SQLiteHelper.KEY_FONE, contato.getFone());
+        values.put(SQLiteHelper.KEY_FONE2, contato.getFone2());
         values.put(SQLiteHelper.KEY_EMAIL, contato.getEmail());
         values.put(SQLiteHelper.KEY_FAVORITO,0);
 
@@ -68,6 +70,7 @@ public class ContatoDAO {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.KEY_NOME, contato.getNome());
         values.put(SQLiteHelper.KEY_FONE, contato.getFone());
+        values.put(SQLiteHelper.KEY_FONE2, contato.getFone2());
         values.put(SQLiteHelper.KEY_EMAIL, contato.getEmail());
 
         database.update(SQLiteHelper.TABLE_NAME, values,
